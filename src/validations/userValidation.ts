@@ -1,6 +1,11 @@
 import joi from 'joi';
 
-function specifyError(error) {
+interface User {
+    name: string,
+    class: string,
+}
+
+function specifyError(error: string) {
     switch (error) {
     case 'name':
         return 'Nome deve ser inserido corretamente';
@@ -11,7 +16,7 @@ function specifyError(error) {
     }
 }
 
-function validateUser(user) {
+function validateUser(user: User) {
     const userSchema = joi.object({
         name: joi.string().required(),
         class: joi.string().required(),

@@ -1,7 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import * as userRepositories from '../repositories/userRespository';
 
-async function saveUser(user: { name: any; class: any; }) {
+interface User {
+    name: string,
+    class: string,
+}
+
+async function saveUser(user: User) {
     const validClass = await userRepositories.checkClass(user.class);
     if (!validClass) return false;
 
