@@ -1,4 +1,3 @@
-import { User } from '../interfaces/userInterface';
 import { Question, NewQuestion, NewAnswer } from '../interfaces/questionInterface';
 import * as questionRepository from '../repositories/questionRepository';
 
@@ -58,13 +57,13 @@ async function listUnanswered() {
     return result;
 }
 
-async function answerQuestion(user: User, answer: string, id: string) {
+async function answerQuestion(name: string, answer: string, id: string) {
     const answeredAt = getDate();
 
     const newAnswer: NewAnswer = {
         answered: true,
         answeredAt,
-        answeredBy: user.name,
+        answeredBy: name,
         answer,
     };
     const result = await questionRepository.answerQuerstion(newAnswer, id);

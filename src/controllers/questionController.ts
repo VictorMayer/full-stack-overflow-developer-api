@@ -55,9 +55,9 @@ async function answerQuestion(req: Request, res: Response) {
     try {
         if (!answer || !id) return res.status(400).send('Insufficient data!');
 
-        const { user } = res.locals;
+        const { name } = res.locals;
 
-        const result = await questionService.answerQuestion(user, answer, id);
+        const result = await questionService.answerQuestion(name, answer, id);
 
         if (!result) res.sendStatus(400);
 

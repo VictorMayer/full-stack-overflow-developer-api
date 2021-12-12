@@ -24,7 +24,7 @@ async function createUser(user: NewUser) {
 async function getUserByToken(token: string) {
     const result = await connection.query(`
         SELECT 
-            students.name, classes.name 
+            students.name, classes.name AS class
         FROM 
             students 
         JOIN 
@@ -37,7 +37,7 @@ async function getUserByToken(token: string) {
 
     if (!result.rows.length) return false;
 
-    return result.rows[0];
+    return result.rows[0].name;
 }
 
 export {

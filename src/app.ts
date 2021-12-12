@@ -18,10 +18,10 @@ app.post('/questions', questionController.newQuestion);
 app.get('/questions/:id', questionController.getQuestion);
 
 // Answer question
-app.post('/questions/:id', authorizate, questionController.answerQuestion); // IMPLEMENT AFTER!
+app.post('/questions/:id', authorizate, questionController.answerQuestion);
 
 // List all unanswered questions
-app.get('/questions', questionController.listUnanswered); // IMPLEMENT NOW!
+app.get('/questions', questionController.listUnanswered);
 
 // Register user
 app.post('/users', userController.newUser);
