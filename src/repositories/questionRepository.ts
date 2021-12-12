@@ -38,7 +38,9 @@ async function createQuestion(q: NewQuestion) {
 async function getQuestionById(id: string) {
     const result = await connection.query(`
         SELECT 
-            questions.*, students.name AS student, classes.name AS class
+            questions.id, questions.question, questions."studentId" AS student, questions."classId" AS class, 
+            questions.tags, questions."submitAt", questions.answered, questions."answeredAt", 
+            questions."answeredBy", questions.answer, students.name AS student, classes.name AS class
         FROM 
             questions JOIN students
         ON 
