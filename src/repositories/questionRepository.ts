@@ -1,5 +1,5 @@
 import connection from '../database';
-import { NewQuestion } from '../interfaces/questionInterface';
+import { NewAnswer, NewQuestion } from '../interfaces/questionInterface';
 
 async function getStudent(student: string) {
     const result = await connection.query(`
@@ -57,9 +57,51 @@ async function getQuestionById(id: string) {
     return result.rows[0];
 }
 
+async function listUnanswered() {
+    const result = await connection.query(`
+        SELECT 
+            questions.id, questions.question, questions."studentId" AS student, questions."classId" AS class, 
+            questions.tags, questions."submitAt", students.name AS student, classes.name AS class
+        FROM 
+            questions JOIN students
+        ON 
+            questions."studentId" = students.id
+        JOIN
+            classes
+        ON
+            questions."classId" = classes.id
+        WHERE 
+            questions.answered = $1
+    `, [false]);
+
+    if (!result.rows.length) return [];
+
+    return result.rows;
+}
+
+async function answerQuerstion(newAnswer: NewAnswer, id: string) {
+    const { answered, answeredAt, answeredBy, answer } = newAnswer;
+
+    const result = await connection.query(`
+        UPDATE 
+            questions 
+        SET 
+            answered = $1, "answeredAt" = $2, "answeredBy" = $3, answer = $4
+        WHERE
+            id = $5
+        RETURNING ID
+    `, [answered, answeredAt, answeredBy, answer, id]);
+
+    if (!result.rows.length) return false;
+
+    return result.rows[0];
+}
+
 export {
     getStudent,
     getClass,
     createQuestion,
     getQuestionById,
+    listUnanswered,
+    answerQuerstion,
 };

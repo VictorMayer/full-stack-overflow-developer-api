@@ -21,7 +21,27 @@ async function createUser(user: NewUser) {
     return result.rows[0].token;
 }
 
+async function getUserByToken(token: string) {
+    const result = await connection.query(`
+        SELECT 
+            students.name, classes.name 
+        FROM 
+            students 
+        JOIN 
+            classes 
+        ON 
+            students."classId" = classes.id 
+        WHERE 
+            token = $1
+    `, [token]);
+
+    if (!result.rows.length) return false;
+
+    return result.rows[0];
+}
+
 export {
     checkClass,
     createUser,
+    getUserByToken,
 };

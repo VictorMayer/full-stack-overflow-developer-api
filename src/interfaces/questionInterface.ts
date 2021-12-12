@@ -13,11 +13,19 @@ interface NewQuestion {
     submitAt: string,
     answered: boolean,
     answeredAt: string,
-    answeredBy: number,
+    answeredBy: string,
+    answer: string,
+}
+
+interface NewAnswer {
+    answered: boolean,
+    answeredAt: string,
+    answeredBy: string,
     answer: string,
 }
 
 export {
     Question,
     NewQuestion,
+    NewAnswer,
 };

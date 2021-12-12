@@ -36,7 +36,41 @@ async function getQuestion(req: Request, res: Response) {
     }
 }
 
+async function listUnanswered(req: Request, res: Response) {
+    try {
+        const result = await questionService.listUnanswered();
+
+        if (!result) return res.sendStatus(404);
+
+        return res.send(result);
+    } catch (error) {
+        console.log(error); // eslint-disable-line no-console
+        return res.sendStatus(500);
+    }
+}
+
+async function answerQuestion(req: Request, res: Response) {
+    const { answer } = req.body;
+    const { id } = req.params;
+    try {
+        if (!answer || !id) return res.status(400).send('Insufficient data!');
+
+        const { user } = res.locals;
+
+        const result = await questionService.answerQuestion(user, answer, id);
+
+        if (!result) res.sendStatus(400);
+
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error); // eslint-disable-line no-console
+        return res.sendStatus(500);
+    }
+}
+
 export {
     newQuestion,
     getQuestion,
+    listUnanswered,
+    answerQuestion,
 };

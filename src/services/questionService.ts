@@ -1,5 +1,6 @@
+import { User } from '../interfaces/userInterface';
+import { Question, NewQuestion, NewAnswer } from '../interfaces/questionInterface';
 import * as questionRepository from '../repositories/questionRepository';
-import { Question, NewQuestion } from '../interfaces/questionInterface';
 
 function getDate() {
     let date: any = new Date().getFullYear();
@@ -49,7 +50,33 @@ async function getQuestion(id: string) {
     return result;
 }
 
+async function listUnanswered() {
+    const result = await questionRepository.listUnanswered();
+
+    if (!result) return false;
+
+    return result;
+}
+
+async function answerQuestion(user: User, answer: string, id: string) {
+    const answeredAt = getDate();
+
+    const newAnswer: NewAnswer = {
+        answered: true,
+        answeredAt,
+        answeredBy: user.name,
+        answer,
+    };
+    const result = await questionRepository.answerQuerstion(newAnswer, id);
+
+    if (!result) return false;
+
+    return result;
+}
+
 export {
     saveQuestion,
     getQuestion,
+    listUnanswered,
+    answerQuestion,
 };
