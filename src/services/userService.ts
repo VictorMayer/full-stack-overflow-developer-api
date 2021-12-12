@@ -1,10 +1,6 @@
 import { v4 as uuid } from 'uuid';
+import { User, NewUser } from '../interfaces/userInterface';
 import * as userRepositories from '../repositories/userRespository';
-
-interface User {
-    name: string,
-    class: string,
-}
 
 async function saveUser(user: User) {
     const validClass = await userRepositories.checkClass(user.class);
@@ -14,7 +10,7 @@ async function saveUser(user: User) {
     const answers = 0;
     const token = uuid();
 
-    const newUser = {
+    const newUser: NewUser = {
         name: user.name,
         class: validClass,
         points,

@@ -1,12 +1,5 @@
 import connection from '../database';
-
-interface NewUser {
-    name: string,
-    class: number,
-    points: number,
-    answers: number,
-    token: string,
-}
+import { NewUser } from '../interfaces/userInterface';
 
 async function checkClass(classGroup: string) {
     const result = await connection.query('SELECT * FROM classes WHERE name = $1', [classGroup]);
@@ -25,7 +18,6 @@ async function createUser(user: NewUser) {
         RETURNING *
     `, [name, user.class, points, answers, token]);
 
-    console.log(result);
     return result.rows[0].token;
 }
 
